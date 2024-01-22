@@ -1,10 +1,10 @@
 import {v2 as cloudinary} from "cloudinary";
 const connectionToCl=()=>{
 try {
-     cloudinary.config({
-        cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
-        api_key:process.env.CLOUDINARY_API_KEY,
-        api_secret:process.env.CLOUDINARY_API_SECRET
+     cloudinary.config({  
+          cloud_name:"des6rlwso",
+        api_key:"237245284582142",
+        api_secret:"-pvwkbHNoARDa1Or7RMujE4Xg2g"
     });
     console.log("cloudinary connected")
 } catch (error) {
