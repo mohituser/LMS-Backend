@@ -11,3 +11,5 @@ try {
     console.log("cloudinary not connected")
 }
 }
+
+export default connectionToCl;
