@@ -6,9 +6,11 @@ import multer from "multer";
 const upload=multer({
 
     dest:"uploads/",
+    // dest:"../lms-frontend/public/"
     limits:{fileSize:50*1024*1024},
     storage:multer.diskStorage({
         destination:"uploads/",
+        // destination:"../lms-frontend/",
         filename:(req,file,cb)=>{
             console.log("multer1...........")
             cb(null,file.originalname)

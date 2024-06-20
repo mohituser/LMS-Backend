@@ -60,7 +60,7 @@ const user=await User.create({
     password,
     avatar:{
         public_id:email,
-        secure_url:"https:localhost"
+        secure_url:""
     }
 });
 if(req.file){
@@ -112,6 +112,7 @@ if(!user){
     const login=async(req,res,next)=>{
         try {
             const {email,password}=req.body;
+            console.log("email at login............",email);
         if(!email || !password){
             return next(new AppError("All fields are required ",400));
         }
@@ -124,7 +125,8 @@ if(!user){
         const token = await user.generateJWTToken();
         user.password=undefined;
         console.log("token",token);
-       res.cookie("token",token,cookieOptions).status(200).json({
+       res.cookie("Uid",token,cookieOptions);
+       res.status(200).json({
             success:true,
             message:"user loggedin successfully",
             user,
@@ -302,7 +304,12 @@ if(req.file){
     
     
     }
+    const contactInfo=async (req,res,next)=>{
+        
+    
+    }   
+
+
     
     
-    
-    export {getProfile, login, logout, register,forgotPassword,resetPassword,changePassword,updateUser} ;
+    export {contactInfo,getProfile, login, logout, register,forgotPassword,resetPassword,changePassword,updateUser} ;

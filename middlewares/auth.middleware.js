@@ -8,6 +8,7 @@ const isLoggedIn=async (req,res,next)=>{
     const token=req.header("Authorization").replace("Bearer ", "");
     // const token=req.header("Authorization");
     console.log("cookeis",token);
+    console.log("body...",req.body);
     // const {token}=req.cookies;
     if(!token){
         return next(new AppError("Unauthenticates , please login again",401));

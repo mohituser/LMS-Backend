@@ -40,58 +40,66 @@ const getLecturesBycourseId=async (req,res,next)=>{
 }
 const createCourse=async (req,res,next)=>{
     const {title,description,createdBy,category}=req.body;
-    if(!title || !description || !category || !createdBy ){
-    return next(new AppError("All fields are mandatory",400));
-}
-const course=await Course.create({
-    title,description,createdBy,category ,
-    thumbnail:{
-        public_id:"Dummy",
-        secure_url:"Dummy",
-    } , 
-});
-if(!course){
-    return next(new AppError("Course could not be created , please try again",500));   
-}
-if(req.file){
-    const result=await cloudinary.v2.uploader.upload(req.file.path,{
-        folder:"lms",
-    })
-    if(result){
-        course.thumbnail.public_id=result.public_id;
-        course.thumbnail.secure_url=result.secure_url;
-        fs.rm(`uploads/${req.file.filename}`)
-    }
-}
-await course.save();
+    console.log("titlee.....",title);
+//     if(!title || !description || !category || !createdBy ){
+//     return next(new AppError("All fields are mandatory",400));
+// }
+// const course=await Course.create({
+//     title,description,createdBy,category ,
+//     thumbnail:{
+//         public_id:"Dummy",
+//         secure_url:"Dummy",
+//     } , 
+// });
+// if(!course){
+//     return next(new AppError("Course could not be created , please try again",500));   
+// }
+// if(req.file){
+//     const result=await cloudinary.v2.uploader.upload(req.file.path,{
+//         folder:"lms",
+//     })
+//     if(result){
+//         course.thumbnail.public_id=result.public_id;
+//         course.thumbnail.secure_url=result.secure_url;
+//         fs.rm(`uploads/${req.file.filename}`)
+//     }
+// }
+// await course.save();
 res.status(200).json({
     success:true,
     message:"Course created successfully",
-    course,
+    // course,
     
 })
 
 
 }
-const updateCourse=async (req,res,next)=>{
+const editCourse=async (req,res,next)=>{
     try {
         const {id}=req.params;
+        console.log("id......",id)
+        
+        console.log("course>>>>>",req.body);
+        const {title,description,createdBy,category,thumbnail}=req.body;
+    console.log("titlee.....",title);
         const course=await Course.findByIdAndUpdate(
             id,
             {
-                $set:req.body
+                // $set:req.body
+                title,description,createdBy,category,thumbnail
             },
-            {
-                runValidators:true
-            }
+            // {
+            //     runValidators:true
+            // }
             );
             if(!course){
-    return next(new AppError("Course could not be updated , please try again",500));   
+    return next(new AppError("Course couldn't be updated , please try again",500));   
             }
+    // throw "error";
             res.status(200).json({
                 success:true,
                 message:"course updated successfully",
-                course
+                // course
             })
         
     } catch (e) {
@@ -195,4 +203,4 @@ const deleteLecture=async(req,res,next)=>{
     }
 
 }
-export {getAllCourses,getLecturesBycourseId,createCourse,updateCourse,removeCourse,addLectureToCourseById,deleteLecture};
+export {getAllCourses,getLecturesBycourseId,createCourse,editCourse,removeCourse,addLectureToCourseById,deleteLecture};
