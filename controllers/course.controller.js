@@ -41,30 +41,30 @@ const getLecturesBycourseId=async (req,res,next)=>{
 const createCourse=async (req,res,next)=>{
     const {title,description,createdBy,category}=req.body;
     console.log("titlee.....",title);
-//     if(!title || !description || !category || !createdBy ){
-//     return next(new AppError("All fields are mandatory",400));
-// }
-// const course=await Course.create({
-//     title,description,createdBy,category ,
-//     thumbnail:{
-//         public_id:"Dummy",
-//         secure_url:"Dummy",
-//     } , 
-// });
-// if(!course){
-//     return next(new AppError("Course could not be created , please try again",500));   
-// }
-// if(req.file){
-//     const result=await cloudinary.v2.uploader.upload(req.file.path,{
-//         folder:"lms",
-//     })
-//     if(result){
-//         course.thumbnail.public_id=result.public_id;
-//         course.thumbnail.secure_url=result.secure_url;
-//         fs.rm(`uploads/${req.file.filename}`)
-//     }
-// }
-// await course.save();
+    if(!title || !description || !category || !createdBy ){
+    return next(new AppError("All fields are mandatory",400));
+}
+const course=await Course.create({
+    title,description,createdBy,category ,
+    thumbnail:{
+        public_id:"Dummy",
+        secure_url:"Dummy",
+    } , 
+});
+if(!course){
+    return next(new AppError("Course could not be created , please try again",500));   
+}
+if(req.file){
+    const result=await cloudinary.v2.uploader.upload(req.file.path,{
+        folder:"lms",
+    })
+    if(result){
+        course.thumbnail.public_id=result.public_id;
+        course.thumbnail.secure_url=result.secure_url;
+        fs.rm(`uploads/${req.file.filename}`)
+    }
+}
+await course.save();
 res.status(200).json({
     success:true,
     message:"Course created successfully",
